@@ -4,6 +4,6 @@
 
 <script>
 export default {
-    name: "Category"
+  name: "Category"
 }
 </script>
