@@ -4,7 +4,10 @@
     <home-swiper class="home-swiper" :banners="banner"/>
     <recommend-view :recommend="recommend"/>
     <feature-view />
-    <tab-control :titles="['流行', '新款', '精选']" />
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"/>
+    <goods-list :goods="goods[currenType]"/>
     <div>
       <ul>
         <li>444</li>
@@ -38,6 +41,7 @@ import HomeSwiper from './childComps/HomeSwiper.vue'
 import RecommendView from './childComps/RecommendView.vue'
 import FeatureView from './childComps/FeatureView.vue'
 import TabControl from 'components/content/tabControl/TabControl.vue'
+import GoodsList from 'components/content/goods/GoodsList.vue'
 
 import {getHomeMultidata, getHomeGoods} from 'network/home.js'
 
@@ -48,7 +52,8 @@ export default {
     HomeSwiper,
     RecommendView,
     FeatureView,
-    TabControl
+    TabControl,
+    GoodsList
   },
   data () {
     return {
@@ -58,7 +63,8 @@ export default {
         'pop': {page:0, list: []},
         'new': {page:0, list: []},
         'sell': {page:0, list: []}
-      }
+      },
+      currenType: 'pop'
     }
   },
   created() {
@@ -69,6 +75,22 @@ export default {
     this.getHomeGoods('sell')
   },
   methods: {
+    //子组件传递事件
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currenType = 'pop'
+          break
+         case 1:
+          this.currenType = 'new'
+          break
+         case 2:
+          this.currenType = 'sell'
+          break
+      }
+    },
+
+    //网络请求相关
     getHomeMultidata() {
       getHomeMultidata().then(res => {
         this.banner = res.data.banner.list
