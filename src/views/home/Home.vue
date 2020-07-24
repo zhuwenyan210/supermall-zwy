@@ -7,7 +7,7 @@
     <tab-control
       :titles="['流行', '新款', '精选']"
       @tabClick="tabClick"/>
-    <goods-list :goods="goods[currenType]"/>
+    <goods-list :goods="showGoods"/>
     <div>
       <ul>
         <li>444</li>
@@ -73,6 +73,11 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
+  },
+  computed: {
+    showGoods () {
+      return this.goods[this.currenType].list
+    }
   },
   methods: {
     //子组件传递事件
