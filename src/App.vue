@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <main-tab-bar />
+    <main-tab-bar class="main-tab-bar"/>
        <router-view></router-view>
   </div>
 </template>
@@ -18,4 +18,9 @@ export default {
 
 <style>
    @import url("assets/css/base.css");
+
+   .main-tab-bar {
+     position: sticky;
+     z-index: 10;
+   }
 </style>
