@@ -1,6 +1,13 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      class="tab-control"
+      v-show="isTabFixed"
+      />
     <scroll
     class="content"
     ref="scroll"
@@ -9,12 +16,16 @@
     :pull-up-load="true"
     @pullingUp="loadMore"
     >
-      <home-swiper class="home-swiper" :banners="banner"/>
+      <home-swiper class="home-swiper"
+      :banners="banner"
+      @swiperImageLoad="swiperImageLoad"/>
       <recommend-view :recommend="recommend"/>
       <feature-view />
       <tab-control
         :titles="['流行', '新款', '精选']"
-        @tabClick="tabClick"/>
+        @tabClick="tabClick"
+        ref="tabControl2"
+        />
       <goods-list :goods="showGoods"/>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
@@ -56,7 +67,10 @@ export default {
         'sell': {page:0, list: []}
       },
       currenType: 'pop',
-      isShowBackTop: false
+      isShowBackTop: false,
+      tabOffestTop: 0,
+      isTabFixed: false,
+      saveY: 0
     }
   },
   created() {
@@ -75,6 +89,16 @@ export default {
           refresh()
        }
     })
+  },
+  destroyed() {
+    console.log('home destroyed')
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY)
+    this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY()
   },
   computed: {
     showGoods () {
@@ -96,12 +120,18 @@ export default {
           this.currenType = 'sell'
           break
       }
+      this.$refs.tabControl1.currentIndex = index
+      this.$refs.tabControl2.currentIndex = index
     },
     backClick() {
       this.$refs.scroll.scrollTo(0, 0, 500)
     },
     contentScroll(position) {
+      //判断backTop是否显示
       this.isShowBackTop = (-position.y) > 1000
+
+      //决定tabControl是否吸顶
+      this.isTabFixed = (-position.y) > this.tabOffestTop
     },
 
     loadMore() {
@@ -109,6 +139,9 @@ export default {
       this.getHomeGoods(this.currenType)
 
       this.$refs.scroll.refresh()
+    },
+    swiperImageLoad() {
+      this.tabOffestTop = this.$refs.tabControl2.$el.offsetTop
     },
 
     //网络请求相关
@@ -144,11 +177,11 @@ export default {
     background-color: var(--color-tint);
     color: #FFFFFF;
 
-    position: fixed;
+ /*   position: fixed;
     left: 0;
     right: 0;
     top: 0;
-    z-index: 9;
+    z-index: 9; */
   }
 
   .home-swiper {
@@ -157,6 +190,11 @@ export default {
 
   .nav-bar {
     display: flex;
+    z-index: 9;
+  }
+
+  .tab-control {
+    position: relative;
     z-index: 9;
   }
 
