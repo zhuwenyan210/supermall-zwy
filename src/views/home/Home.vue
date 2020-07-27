@@ -32,6 +32,7 @@ import Scroll from 'components/common/scroll/Scroll.vue'
 import BackTop from 'components/content/backTop/BackTop.vue'
 
 import {getHomeMultidata, getHomeGoods} from 'network/home.js'
+import {debounce} from 'components/common/util.js'
 
 export default {
   name: "Home",
@@ -66,7 +67,7 @@ export default {
     this.getHomeGoods('sell')
   },
   mounted() {
-    const refresh = this.debounce(this.$refs.scroll.refresh, 200)
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
     this.$bus.$on('itemImageLoad', () => {
        if (this.$refs.scroll) {
           // this.$refs.scroll.refresh()
@@ -82,16 +83,6 @@ export default {
   },
   methods: {
 
-    debounce(func, delay) {
-      let timer = null
-
-      return function (...args) {
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-          func.apply(this, args)
-        }, delay)
-      }
-    },
     //子组件传递事件
     tabClick(index) {
       switch (index) {
@@ -114,7 +105,7 @@ export default {
     },
 
     loadMore() {
-      // console.log('上拉加载更多')
+      console.log('上拉加载更多')
       this.getHomeGoods(this.currenType)
 
       this.$refs.scroll.refresh()
