@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad"/>
+    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -13,22 +13,23 @@
   export default {
     name: "GoodsListItem",
     props: {
-		goodsItem: {
-			type: Object,
-			default() {
-				return {}
-			}
-		}
-	},
-  methods: {
-    imageLoad() {
-      // console.log('dsd')
-      this.$bus.$emit('itemImageLoad')
+      goodsItem: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
     },
-    itemClick() {
-      this.$router.push('./detail/' + this.goodsItem.iid)
+    methods: {
+      imageLoad () {
+        this.$bus.$emit('itemImageLoad')
+      },
+      itemClick () {
+        // console.log(this.goodsItem.iid)
+        this.$router.push('/detail/' + this.goodsItem.iid)
+
+      }
     }
-  }
   }
 </script>
 
@@ -36,6 +37,7 @@
   .goods-item {
     padding-bottom: 40px;
     position: relative;
+
     width: 48%;
   }
 
@@ -77,6 +79,6 @@
     top: -1px;
     width: 14px;
     height: 14px;
-    background: url(../../../assets/img/common/collect.svg) 0 0/14px 14px;
+    background: url("../../../assets/img/common/collect.svg") 0 0/14px 14px;
   }
 </style>

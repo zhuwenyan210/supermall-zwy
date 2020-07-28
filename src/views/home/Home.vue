@@ -188,11 +188,11 @@ export default {
 
   }
 
-  .nav-bar {
+/*  .nav-bar {
     display: flex;
-    z-index: 9;
+    z-index: 19;
   }
-
+ */
   .tab-control {
     position: relative;
     z-index: 9;

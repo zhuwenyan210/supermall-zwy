@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <main-tab-bar class="main-tab-bar"/>
-       <keep-alive>
+       <keep-alive exclude="Detail">
          <router-view></router-view>
        </keep-alive>
   </div>
@@ -19,10 +19,10 @@ export default {
 </script>
 
 <style>
-   @import url("assets/css/base.css");
+  @import url("assets/css/base.css");
 
-   .main-tab-bar {
-     position: sticky;
-     z-index: 10;
-   }
+  .main-tab-bar {
+    position: sticky;
+    z-index: 10;
+  }
 </style>

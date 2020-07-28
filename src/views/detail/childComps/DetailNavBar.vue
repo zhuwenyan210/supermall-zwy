@@ -2,7 +2,7 @@
   <div>
     <nav-bar>
       <div slot="left" class="back" @click="backClick">
-        <img src="@/assets/img/common/back.svg" />
+        <img src="~assets/img/common/back.svg" />
       </div>
       <div slot="center" class="title">
         <div
@@ -10,8 +10,7 @@
         class="title-item"
         :key="index"
         :class="{active: index === currentIndex}"
-        @click="titleClick(index)"> 
-        {{item}}
+        @click="titleClick(index)"> {{item}}
         </div>
       </div>
     </nav-bar>
@@ -19,7 +18,7 @@
 </template>
 
 <script>
-  import NavBar from '@/components/common/navbar/NavBar.vue'
+  import NavBar from 'components/common/navbar/NavBar.vue'
 
   export default {
     name: "DetailNavBar",
