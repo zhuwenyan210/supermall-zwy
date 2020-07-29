@@ -43,7 +43,7 @@ import Scroll from 'components/common/scroll/Scroll.vue'
 import BackTop from 'components/content/backTop/BackTop.vue'
 
 import {getHomeMultidata, getHomeGoods} from 'network/home.js'
-import {debounce} from 'components/common/util.js'
+import {debounce} from 'common/util.js'
 
 export default {
   name: "Home",
@@ -70,7 +70,8 @@ export default {
       isShowBackTop: false,
       tabOffestTop: 0,
       isTabFixed: false,
-      saveY: 0
+      saveY: 0,
+      itemImgListener: null
     }
   },
   created() {
@@ -82,13 +83,17 @@ export default {
   },
   mounted() {
     const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on('itemImageLoad', () => {
+
+    this.itemImgListener = () => {
        if (this.$refs.scroll) {
           // this.$refs.scroll.refresh()
           // console.log('---------')
           refresh()
+          }
        }
-    })
+    this.$bus.$on('itemImageLoad',
+       this.itemImgListener
+       )
   },
   destroyed() {
     console.log('home destroyed')
@@ -99,6 +104,8 @@ export default {
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY()
+
+    this.$bus.$off('itemImageLoad', this.itemImgListener)
   },
   computed: {
     showGoods () {
