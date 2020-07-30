@@ -5,9 +5,10 @@
       <cart-list
       v-for="(item, index) in $store.state.cartList"
       :product="item"
-      :key="index"></cart-list>
+      :key="index"
+      @cartListCheck="cartListCheck"></cart-list>
     </scroll>
-    <cart-bottom-bar />
+    <cart-bottom-bar :allPrice="allPrice" @allCheckClick="allCheckClick" ref="bottom"/>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ export default {
   name: "Cart",
   data() {
     return {
+      allPrice: 0
     }
   },
   components: {
@@ -36,6 +38,29 @@ export default {
   },
   activated() {
     this.$refs.scroll.refresh()
+  },
+  methods: {
+    allCheckClick(isCheck) {
+      if (isCheck) {
+        let cartList = this.$store.state.cartList
+          console.log(cartList.length > 0)
+          if (cartList.length > 0) {
+            cartList.forEach((item) => {
+              this.allPrice += Number(item.price)
+            })
+        }
+      } else {
+        this.allPrice = 0
+      }
+      },
+  cartListCheck(product) {
+    if (product.select) {
+      this.allPrice += Number(product.price)
+    } else {
+      this.allPrice -= Number(product.price)
+      this.$refs.bottom.allCheck = false
+    }
+  }
   }
 }
 </script>
@@ -46,7 +71,7 @@ export default {
   }
 
   .content {
-    height: calc(100% - 44px - 49px - 30px);
+    height: calc(100% - 44px - 49px - 40px);
     overflow: hidden;
   }
 

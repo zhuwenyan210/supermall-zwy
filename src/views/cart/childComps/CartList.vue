@@ -58,6 +58,7 @@
       },
       checkBtnClick() {
         this.product.select = !this.product.select
+        this.$emit('cartListCheck', this.product)
       }
     }
   }

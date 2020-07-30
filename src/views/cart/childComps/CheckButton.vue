@@ -10,7 +10,7 @@
     props: {
       value: {
         type: Boolean,
-        default: true
+        default: false
       }
     },
     data() {
@@ -34,16 +34,15 @@
 <style scoped>
   .select {
     position: relative;
-    margin: 0;
     /* left: 50%; */
-    height: 15px;
-    width: 15px;
+    height: 18px;
+    width: 18px;
     margin-right: 5px;
     border: solid 2px rgba(100, 100, 100, .2);
     border-radius: 50px;
 
-/*    display: flex;
-    justify-content: center; */
+    display: flex;
+    justify-content: center;
     font-size: 5px;
 /*    cursor: pointer; */
   }

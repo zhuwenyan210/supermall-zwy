@@ -10,5 +10,10 @@ export default {
  [ADD_TO_CART](state, payload) {
    payload.select = false
    state.cartList.push(payload)
+ },
+ allCheckClick(state, payload) {
+   state.cartList.forEach((item, index) => {
+     state.cartList[index].select = !payload
+   })
  }
 }

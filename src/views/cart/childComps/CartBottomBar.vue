@@ -1,11 +1,11 @@
 <template>
   <div class="bottom-bar">
     <div class="check-content">
-      <div class="check-button"><check-button/></div>
+      <div class="check-button"><check-button :value="allCheck" @checkBtnClick="allCheckClick" /></div>
       <span>全选</span>
       <span class="all-price">合计:{{allPrice | showAllPrice}}</span>
     </div>
-    <div class="go-to-stat">去计算</div>
+    <div class="go-to-stat">结算</div>
 
   </div>
 </template>
@@ -15,6 +15,11 @@
 
   export default {
     name: 'CartBottomBar',
+    data() {
+      return {
+        allCheck: false
+      }
+    },
     props: {
       allPrice: {
         type: Number,
@@ -31,6 +36,10 @@
     },
     methods: {
       allCheckClick() {
+        this.$store.commit('allCheckClick', this.allCheck)
+        this.allCheck = !this.allCheck
+
+        this.$emit('allCheckClick', this.allCheck)
 
       }
     }
@@ -40,27 +49,28 @@
 <style scoped>
   .bottom-bar {
     display: flex;
-    height: 30px;
-    background-color: #9f9f9f;
+    justify-content: space-between;
+    height: 40px;
+    border-top: solid 2px rgba(100,100,100,.1);
   }
 
   .check-content {
-    font-size: 12px;
+    font-size: 13px;
     display: flex;
-    padding: 12px 5px 5px 5px
+    padding: 12px 0px 5px 12px
   }
 
   .check-content .all-price {
-    margin-left: 10px;
+    margin-left: 80px;
     font-weight: 600;
-    font-size: 13px;
   }
 
   .go-to-stat {
-/*    position: relative;
-    top: 0;
-    bottom: 0;
-    right: 0; */
-    margin-right: 0;
+    margin: 2px;
+    width: 90px;
+    padding: 10px 0px 12px 30px;
+    background-color: red;
+    color: #FFFFFF;
+    border-radius: 20px;
   }
 </style>
