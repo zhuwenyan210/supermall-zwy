@@ -13,7 +13,8 @@
         <detail-comment-info ref="comment" :comment-info="commentInfo" />
         <goods-list ref="recommend" :goods="recommends"/>
       </scroll>
-      <detail-bottom-bar />
+      <back-top @click.native="backClick" v-show="isShowBackTop"/>
+      <detail-bottom-bar @addToCart="addToCart"/>
   </div>
 </template>
 
@@ -29,8 +30,9 @@
 
   import Scroll from 'components/common/scroll/Scroll.vue'
   import GoodsList from 'components/content/goods/GoodsList.vue'
+  import backTop from 'components/content/backTop/BackTop.vue'
 
-  // import {itemListenerMixin} from 'common/util.js'
+  import {backTopMinxin} from 'common/mixin.js'
   import {debounce} from 'common/util.js'
   import {getDetail, getRecommend, Goods, Shop, GoodsParam} from 'network/detail.js'
 
@@ -46,9 +48,10 @@
       DetailCommentInfo,
       DetailBottomBar,
       GoodsList,
+      backTop,
       Scroll
     },
-    // mixins: [itemListenerMixin],
+    mixins: [backTopMinxin],
     data () {
       return {
         iid: null,
@@ -144,6 +147,19 @@
         //     this.$refs.navbar.currentIndex =
         //   }
         // }
+        this.listenShowBackTop(position)
+      },
+      addToCart() {
+        //1、获取购物车需要展示的信息
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.realPrice
+        product.iid = this.iid
+
+        //2、将商品添加到购物车
+        this.$store.dispatch('addCart', product)
       }
     }
   }
@@ -164,6 +180,6 @@
   }
   .content {
     background-color: #fff;
-    height: calc(100% - 44px - 49px);
+    height: calc(100% - 44px);
   }
 </style>

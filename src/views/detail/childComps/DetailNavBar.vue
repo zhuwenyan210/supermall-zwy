@@ -35,7 +35,7 @@
       titleClick (index) {
         this.currentIndex = index
         this.$emit('titleClick', index)
-        // console.log(index)
+        // console.log(this.currentIndex)
       },
       backClick () {
         this.$router.back()
