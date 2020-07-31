@@ -46,21 +46,21 @@ export default {
           console.log(cartList.length > 0)
           if (cartList.length > 0) {
             cartList.forEach((item) => {
-              this.allPrice += Number(item.price)
+              this.allPrice += Number(item.price) * Number(item.count)
             })
         }
       } else {
         this.allPrice = 0
       }
       },
-  cartListCheck(product) {
-    if (product.select) {
-      this.allPrice += Number(product.price)
-    } else {
-      this.allPrice -= Number(product.price)
-      this.$refs.bottom.allCheck = false
+    cartListCheck(product) {
+      if (product.select) {
+        this.allPrice += Number(product.price) * Number(product.count)
+      } else {
+        this.allPrice -= Number(product.price) * Number(product.count)
+        this.$refs.bottom.allCheck = false
+      }
     }
-  }
   }
 }
 </script>

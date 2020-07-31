@@ -12,8 +12,6 @@ export default {
    state.cartList.push(payload)
  },
  allCheckClick(state, payload) {
-   state.cartList.forEach((item, index) => {
-     state.cartList[index].select = !payload
-   })
+   state.cartList.forEach(item => item.select = !payload)
  }
 }

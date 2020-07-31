@@ -1,6 +1,6 @@
 <template>
   <div class="cart-list">
-      <div class="check-button"><check-button :value="product.select" @checkBtnClick="checkBtnClick"/></div>
+      <div class="check-button"><check-button :value="product.select" @click.native="checkBtnClick"/></div>
      <div class="info info-left">
        <img :src="product.image" alt="商品图片"/>
      </div>
@@ -58,7 +58,7 @@
       },
       checkBtnClick() {
         this.product.select = !this.product.select
-        this.$emit('cartListCheck', this.product)
+        
       }
     }
   }

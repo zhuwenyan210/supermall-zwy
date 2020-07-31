@@ -1,5 +1,5 @@
 <template>
-  <div class="select" :class="{'active': checked}" @click="selectClick">
+  <div class="select" :class="{'active': checked}">
     <span v-show="checked">✔ </span>
   </div>
 </template>
@@ -19,9 +19,6 @@
       }
     },
     methods: {
-      selectClick() {
-        this.$emit('checkBtnClick')
-      }
     },
     watch: {
       value: function(newValue) {

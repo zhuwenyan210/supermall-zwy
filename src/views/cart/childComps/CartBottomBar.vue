@@ -1,9 +1,9 @@
 <template>
   <div class="bottom-bar">
     <div class="check-content">
-      <div class="check-button"><check-button :value="allCheck" @checkBtnClick="allCheckClick" /></div>
+      <div class="check-button"><check-button ref="btn" :value="isSelectAll" @click.native="allCheckClick" /></div>
       <span>全选</span>
-      <span class="all-price">合计:{{allPrice | showAllPrice}}</span>
+      <span class="all-price">合计:{{totalPrice}}</span>
     </div>
     <div class="go-to-stat">结算</div>
 
@@ -22,8 +22,7 @@
     },
     props: {
       allPrice: {
-        type: Number,
-        default: 15.15
+        type: Number
       }
     },
     components: {
@@ -36,11 +35,26 @@
     },
     methods: {
       allCheckClick() {
-        this.$store.commit('allCheckClick', this.allCheck)
-        this.allCheck = !this.allCheck
-
-        this.$emit('allCheckClick', this.allCheck)
-
+        this.$store.commit('allCheckClick', this.isSelectAll)
+        // if (this.$store.state.cartList.length !== 0) {
+        //   this.isSelectAll = !this.isSelectAll
+        // }
+        // this.$emit('allCheckClick', this.allCheck)
+        // this.$store.state.cartList.forEach(item => item.select = !this.isSelectAll)
+        // if (this.isSelectAll) {}
+      }
+    },
+    computed: {
+      totalPrice() {
+        return "￥" + this.$store.state.cartList.filter(item => {
+          return item.select
+        }).reduce((preValue, item) => {
+          return preValue + item.price * item.count
+        }, 0).toFixed(2)
+      },
+      isSelectAll() {
+        if (this.$store.state.cartList.length === 0) return false
+          return !this.$store.state.cartList.find(item => !item.select)
       }
     }
   }
